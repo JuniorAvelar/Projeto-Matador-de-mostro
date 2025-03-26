@@ -5,10 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matador de monstro</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
 </head>
 <body>
-    
+    <div id="app">
+        <div class="panel scores">
+           <div class="score">
+                <h1>Jogador</h1>
+                <div class="life-bar">
+                    <div class="life" 
+                    :class="{danger: playerLife < 20}"
+                    :style="{width: playerLife + '%'}"></div>
+                </div>
+                <div> {{playerLife}}% </div>
+           </div>
 
+           <div class="score">
+            <h1>Jogador</h1>
+            <div class="life-bar">
+                <div class="life" 
+                :class="{danger: monsterLife < 20}" 
+                :style="{width: monsterLife + '%'}"></div>
+            </div>
+            <div> {{monsterLife}}% </div>
+       </div>
+        </div>
+        <div class="panel result" v-if="hasResult">
+            <div class="win" v-if="monsterLife == 0"> <p>Voçê ganhou! :)</p></div>
+            <div class="los" v-if="playerLife == 0"> <p>Voçê Perdeu! :(</p></div>
+        </div>
+        <div class="panel buttons"> 
+           <template v-if="running">
+            <button class="btn attack" @click="attack(false)">Ataque</button>
+            <button class="btn Especial-attack" @click="attack(true)" >Ataque Especial</button>
+            <button class="btn heal">Curar</button>
+            <button class="btn give-up" @click="running = !running">Desistir</button>
+           </template>
+            <button v-else class="btn new-game" @click="startGame">Iniciar jogo</button>
+        </div>
+        <div class="panel logs"></div>
+    </div>
 
     <script src="app.js"></script>
 </body>
